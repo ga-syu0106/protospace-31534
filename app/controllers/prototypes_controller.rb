@@ -1,5 +1,5 @@
 class PrototypesController < ApplicationController
-  before_action :prototype_find , only: [:show , :edit , :update]
+  before_action :prototype_find , only: [:show , :edit , :update , :destroy]
 
   def index
     @prototype = Prototype.includes(:user)
@@ -10,8 +10,8 @@ class PrototypesController < ApplicationController
   end
 
   def create
-    prototype = Prototype.new(prototype_params)
-    if prototype.save
+    @prototype = Prototype.new(prototype_params)
+    if @prototype.save
       redirect_to root_path
     else 
       render :new
@@ -30,6 +30,11 @@ class PrototypesController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def destroy
+    @prototype.delete
+    redirect_to root_path
   end
 
   private
